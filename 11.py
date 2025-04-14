@@ -258,7 +258,7 @@ def handle_invite_friends(message):
     caption = """
 <b>❗️ NHẬN GIFCODE RẤT ĐƠN GIẢN CHỈ CẦN VÀI THAO TÁC
 ✅ MỜI BẠN BÈ THAM GIA BOT NHẬN NGAY 4500đ 
-✅ http://no99.club/ LÀ TÊN MIỀN CHÍNH HÃNG DUY NHẤT!</b>
+✅ http://sum34.club/ LÀ TÊN MIỀN CHÍNH HÃNG DUY NHẤT!</b>
 
 👤 Link Mời Bạn Bè ( Bấm vào coppy ) :<code> {invite_link}</code>
     """.format(invite_link=invite_link)
@@ -476,7 +476,7 @@ def handle_statistics(message):
 
 @bot.message_handler(func=lambda message: message.text == '🆘 Hỗ Trợ')
 def handle_support(message):
-    bot.send_message(message.chat.id, "🆘 Bạn cần hỗ trợ? Vui lòng liên hệ với chúng tôi qua Telegram: @nguyendanh8386 Và Đợi Phản Hồi.")
+    bot.send_message(message.chat.id, "🆘 Bạn cần hỗ trợ? Vui lòng liên hệ với chúng tôi qua Telegram: @thinhcong29 Và Đợi Phản Hồi.")
 
 @bot.message_handler(commands=['chatmem'])
 def handle_chatmem_command(message):
