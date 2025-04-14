@@ -4,4 +4,4 @@ aiocron
 requests
 pyTelegramBotAPI
 captcha
-
+Pillow
