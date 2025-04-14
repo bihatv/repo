@@ -3,4 +3,5 @@ flask
 aiocron
 requests
 pyTelegramBotAPI
-pip3 install captcha
+captcha
+
