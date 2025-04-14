@@ -254,11 +254,11 @@ def handle_invite_friends(message):
     user_id = message.from_user.id
     invite_link = f"https://t.me/{bot.get_me().username}?start={user_id}"
 
-    photo_url = "https://i.imgur.com/eqxLky7.jpeg"
+    photo_url = "https://images.app.goo.gl/exG6Xy6FhadwQP8K7"
     caption = """
 <b>❗️ NHẬN GIFCODE RẤT ĐƠN GIẢN CHỈ CẦN VÀI THAO TÁC
 ✅ MỜI BẠN BÈ THAM GIA BOT NHẬN NGAY 4500đ 
-✅ http://no99.club/ LÀ TÊN MIỀN CHÍNH HÃNG DUY NHẤT!</b>
+✅ http://sum34.club/ LÀ TÊN MIỀN CHÍNH HÃNG DUY NHẤT!</b>
 
 👤 Link Mời Bạn Bè ( Bấm vào coppy ) :<code> {invite_link}</code>
     """.format(invite_link=invite_link)
