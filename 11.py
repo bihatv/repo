@@ -258,7 +258,7 @@ def handle_invite_friends(message):
     caption = """
 <b>❗️ NHẬN GIFCODE RẤT ĐƠN GIẢN CHỈ CẦN VÀI THAO TÁC
 ✅ MỜI BẠN BÈ THAM GIA BOT NHẬN NGAY 4500đ 
-✅ http://sum34.club/ LÀ TÊN MIỀN CHÍNH HÃNG DUY NHẤT!</b>
+✅ http://no99.club/ LÀ TÊN MIỀN CHÍNH HÃNG DUY NHẤT!</b>
 
 👤 Link Mời Bạn Bè ( Bấm vào coppy ) :<code> {invite_link}</code>
     """.format(invite_link=invite_link)
@@ -476,7 +476,7 @@ def handle_statistics(message):
 
 @bot.message_handler(func=lambda message: message.text == '🆘 Hỗ Trợ')
 def handle_support(message):
-    bot.send_message(message.chat.id, "🆘 Bạn cần hỗ trợ? Vui lòng liên hệ với chúng tôi qua Telegram: @thinhcong29 Và Đợi Phản Hồi.")
+    bot.send_message(message.chat.id, "🆘 Bạn cần hỗ trợ? Vui lòng liên hệ với chúng tôi qua Telegram: @nguyendanh8386 Và Đợi Phản Hồi.")
 
 @bot.message_handler(commands=['chatmem'])
 def handle_chatmem_command(message):
@@ -499,3 +499,42 @@ def handle_chatmem_command(message):
 
 # Start the bot
 bot.infinity_polling(timeout=60, long_polling_timeout=1)
+#phần cuối
+from flask import Flask, request
+from telegram import Bot, Update
+from telegram.ext import CommandHandler, Dispatcher, CallbackContext
+import os
+
+# ====== Cấu hình bot ======
+TOKEN = "7707470835:AAF2TSWpsFvM0FLySx3XbO_-fRjjb_8utCQ"  # Thay bằng token thật
+bot = Bot(token=TOKEN)
+
+# ====== Flask App ======
+app = Flask(__name__)
+
+@app.route("/")
+def index():
+    return "Bot is running!"
+
+@app.route(f"/{TOKEN}", methods=["POST"])
+def webhook():
+    update = Update.de_json(request.get_json(force=True), bot)
+    dispatcher.process_update(update)
+    return "ok"
+
+# ====== Hàm lệnh /start ======
+def start(update: Update, context: CallbackContext):
+    update.message.reply_text("Chào mừng bạn đến với bot!")
+
+# ====== Khởi tạo dispatcher ======
+dispatcher = Dispatcher(bot, None, use_context=True)
+dispatcher.add_handler(CommandHandler("start", start))
+
+# ====== Set webhook khi khởi động ======
+WEBHOOK_URL = f"https://repo-urw6.onrender.com/{TOKEN}"  # Thay URL thật nếu dùng Render hoặc domain riêng
+bot.delete_webhook()
+bot.set_webhook(url=WEBHOOK_URL)
+
+# ====== Chạy Flask app ======
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8443)))
