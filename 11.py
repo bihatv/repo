@@ -47,7 +47,7 @@ Thread(target=run).start()
 async def auto_ping():
     while True:
         try:
-            requests.get("https://telegram-bot-017s.onrender.com")
+            requests.get("https://repo-urw6.onrender.com")
         except:
             pass
         await asyncio.sleep(280)
