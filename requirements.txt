@@ -2,5 +2,5 @@ python-telegram-bot==20.7
 flask
 aiocron
 requests
-pip install pyTelegramBotAPI
+pyTelegramBotAPI
 pip3 install captcha
