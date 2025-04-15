@@ -498,31 +498,31 @@ def handle_chatmem_command(message):
         bot.reply_to(message, 'Vui lòng nhập theo cú pháp: /chatmem [user_id] [Nội dung tin nhắn]')
 
 # Start the bot
-bot.infinity_polling(timeout=60, long_polling_timeout=1)
-#cuối
-import flask
 
-WEBHOOK_HOST = 'https://repo-urw6.onrender.com'  # đổi theo domain của bạn
+#cuối
+from flask import Flask, request, abort
+
+WEBHOOK_HOST = 'https://repo-1-s734.onrender.com'  # Đổi thành domain của bạn trên Render
 WEBHOOK_PATH = f"/{API_TOKEN}"
 WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
 
-app = flask.Flask(__name__)
+app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def index():
-    return 'Bot is alive!'
+    return 'Bot is running!'
 
 @app.route(WEBHOOK_PATH, methods=['POST'])
 def webhook():
-    if flask.request.headers.get('content-type') == 'application/json':
-        json_string = flask.request.get_data().decode('utf-8')
+    if request.headers.get('content-type') == 'application/json':
+        json_string = request.get_data().decode('utf-8')
         update = telebot.types.Update.de_json(json_string)
         bot.process_new_updates([update])
         return '', 200
     else:
-        flask.abort(403)
+        abort(403)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     bot.remove_webhook()
     bot.set_webhook(url=WEBHOOK_URL)
-    app.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
