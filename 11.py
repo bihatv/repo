@@ -497,7 +497,40 @@ def handle_chatmem_command(message):
     except (IndexError, ValueError):
         bot.reply_to(message, 'Vui lòng nhập theo cú pháp: /chatmem [user_id] [Nội dung tin nhắn]')
 
-# Start the bot
+# resetuid
+@bot.message_handler(commands=['resetuser'])
+def reset_user_command(message):
+    if message.from_user.id not in admins:
+        bot.reply_to(message, "❌ Bạn không có quyền dùng lệnh này.")
+        return
+
+    try:
+        parts = message.text.split()
+        if len(parts) != 2:
+            raise ValueError("❗ Dùng đúng cú pháp: /resetuser [user_id]")
+
+        target_id = str(int(parts[1]))
+
+        # Xoá dữ liệu người dùng
+        user_removed = False
+        invited_removed = False
+
+        if target_id in user_data:
+            del user_data[target_id]
+            save_data(user_data_file, user_data)
+            user_removed = True
+
+        if target_id in invited_users:
+            del invited_users[target_id]
+            save_data(invited_users_file, invited_users)
+            invited_removed = True
+
+        if user_removed or invited_removed:
+            bot.reply_to(message, f"✅ Đã reset dữ liệu của user {target_id}.")
+        else:
+            bot.reply_to(message, f"ℹ️ Không tìm thấy dữ liệu user {target_id}.")
+    except Exception as e:
+        bot.reply_to(message, f"⚠️ Lỗi: {str(e)}")
 
 #cuối
 from flask import Flask, request, abort
