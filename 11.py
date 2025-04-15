@@ -499,42 +499,30 @@ def handle_chatmem_command(message):
 
 # Start the bot
 bot.infinity_polling(timeout=60, long_polling_timeout=1)
-#phần cuối
-from flask import Flask, request
-from telegram import Bot, Update
-from telegram.ext import CommandHandler, Dispatcher, CallbackContext
-import os
+#cuối
+import flask
 
-# ====== Cấu hình bot ======
-TOKEN = "7707470835:AAF2TSWpsFvM0FLySx3XbO_-fRjjb_8utCQ"  # Thay bằng token thật
-bot = Bot(token=TOKEN)
+WEBHOOK_HOST = 'https://repo-urw6.onrender.com'  # đổi theo domain của bạn
+WEBHOOK_PATH = f"/{API_TOKEN}"
+WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
 
-# ====== Flask App ======
-app = Flask(__name__)
+app = flask.Flask(__name__)
 
-@app.route("/")
+@app.route('/')
 def index():
-    return "Bot is running!"
+    return 'Bot is alive!'
 
-@app.route(f"/{TOKEN}", methods=["POST"])
+@app.route(WEBHOOK_PATH, methods=['POST'])
 def webhook():
-    update = Update.de_json(request.get_json(force=True), bot)
-    dispatcher.process_update(update)
-    return "ok"
+    if flask.request.headers.get('content-type') == 'application/json':
+        json_string = flask.request.get_data().decode('utf-8')
+        update = telebot.types.Update.de_json(json_string)
+        bot.process_new_updates([update])
+        return '', 200
+    else:
+        flask.abort(403)
 
-# ====== Hàm lệnh /start ======
-def start(update: Update, context: CallbackContext):
-    update.message.reply_text("Chào mừng bạn đến với bot!")
-
-# ====== Khởi tạo dispatcher ======
-dispatcher = Dispatcher(bot, None, use_context=True)
-dispatcher.add_handler(CommandHandler("start", start))
-
-# ====== Set webhook khi khởi động ======
-WEBHOOK_URL = f"https://repo-urw6.onrender.com/{TOKEN}"  # Thay URL thật nếu dùng Render hoặc domain riêng
-bot.delete_webhook()
-bot.set_webhook(url=WEBHOOK_URL)
-
-# ====== Chạy Flask app ======
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 10000)))
+    bot.remove_webhook()
+    bot.set_webhook(url=WEBHOOK_URL)
+    app.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
